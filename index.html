@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fields vs Particles - IB Physics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Georgia', 'Palatino', 'Times New Roman', serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 2px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            color: #7f8c8d;
+            margin-bottom: 50px;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 2.2em;
+            color: #34495e;
+            margin: 50px 0 25px 0;
+            font-weight: 400;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+        
+        h3 {
+            font-size: 1.6em;
+            color: #5f27cd;
+            margin: 35px 0 20px 0;
+            font-weight: 500;
+        }
+        
+        p {
+            margin: 20px 0;
+            font-size: 1.1em;
+            text-align: justify;
+        }
+        
+        .concept-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .concept-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison { grid-template-columns: 1fr; }
+        }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #667eea;
+        }
+        
+        .card.particle {
+            border-top-color: #e74c3c;
+        }
+        
+        .card.field {
+            border-top-color: #3498db;
+        }
+        
+        .card.quantum {
+            border-top-color: #9b59b6;
+        }
+        
+        .card h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .card.particle h4 { color: #e74c3c; }
+        .card.field h4 { color: #3498db; }
+        .card.quantum h4 { color: #9b59b6; }
+        
+        .highlight-box {
+            background: #ecf0f1;
+            border-left: 5px solid #e74c3c;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+        
+        .example-box {
+            background: #e8f5e9;
+            border-left: 5px solid #27ae60;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+        
+        .formula {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3em;
+            text-align: center;
+            padding: 20px;
+            margin: 25px 0;
+            background: #34495e;
+            color: white;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+        
+        canvas {
+            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+            margin: 20px 0;
+            cursor: crosshair;
+        }
+        
+        .controls {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #dee2e6;
+        }
+        
+        .control-group {
+            margin: 15px 0;
+        }
+        
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #dee2e6;
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        ul, ol {
+            margin: 20px 0 20px 40px;
+        }
+        
+        li {
+            margin: 12px 0;
+            font-size: 1.05em;
+        }
+        
+        .kpi {
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .kpi .label {
+            font-size: 0.9em;
+            color: #6c757d;
+            font-weight: 600;
+        }
+        
+        .kpi .value {
+            font-size: 1.2em;
+            font-family: 'Courier New', monospace;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            color: #495057;
+        }
+        
+        .tab:hover {
+            background: #e9ecef;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fields vs Particles</h1>
+        <div class="subtitle">Two complementary pictures of physical reality</div>
+        
+        <div class="concept-box">
+            <h3>The Central Question</h3>
+            <p>When the Moon orbits Earth, how does gravity work? Two perspectives:</p>
+            <ol style="margin-left: 20px;">
+                <li><strong>Particle Picture:</strong> Earth and Moon are discrete objects that directly pull on each other through action-at-a-distance forces (Newton's 3rd law pairs)</li>
+                <li><strong>Field Picture:</strong> Earth creates a gravitational field that fills all of space; the Moon responds to this field at its location</li>
+            </ol>
+            <p style="margin-top: 20px;">Both give the same predictions for motion, but offer different insights. At the quantum level, particles themselves <em>become</em> fields!</p>
+        </div>
+        
+        <h2>1. Particle Picture: Localized Objects with Trajectories</h2>
+        
+        <div class="comparison">
+            <div class="card particle">
+                <h4>Key Features</h4>
+                <ul>
+                    <li><strong>Localized:</strong> Object has definite position at each instant</li>
+                    <li><strong>Trajectory:</strong> Path through space over time</li>
+                    <li><strong>Newton's 3rd Law pairs:</strong> F₁₂ = −F₂₁</li>
+                    <li><strong>Action-at-a-distance:</strong> Objects affect each other directly</li>
+                    <li><strong>Instantaneous:</strong> Forces respond immediately (Newtonian)</li>
+                </ul>
+            </div>
+            
+            <div class="card particle">
+                <h4>When to Use</h4>
+                <ul>
+                    <li>Calculating orbital mechanics</li>
+                    <li>Analyzing collisions</li>
+                    <li>Solving projectile motion</li>
+                    <li>Satellite dynamics</li>
+                    <li>When you care about specific trajectories</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Interactive: Earth-Moon System (Particle Picture)</h3>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label>Moon's orbital radius: <span id="orbitRadiusVal">384</span> Mm</label>
+                <input type="range" id="orbitRadius" min="200" max="600" value="384" step="10">
+            </div>
+            <div class="button-group">
+                <button onclick="startOrbit()">Start Orbit</button>
+                <button onclick="pauseOrbit()">Pause</button>
+                <button onclick="resetOrbit()">Reset</button>
+            </div>
+        </div>
+        
+        <canvas id="orbitCanvas" width="800" height="600"></canvas>
+        
+        <div class="kpi">
+            <div class="label">Earth Force on Moon</div>
+            <div class="value" id="forceEM">—</div>
+        </div>
+        <div class="kpi">
+            <div class="label">Moon Force on Earth</div>
+            <div class="value" id="forceME">—</div>
+        </div>
+        <div class="kpi">
+            <div class="label">Newton's 3rd Law</div>
+            <div class="value" id="thirdLaw">F₁₂ = −F₂₁</div>
+        </div>
+        
+        <div class="highlight-box">
+            <h3>Newton's Third Law</h3>
+            <p>In the particle picture, forces always come in equal-and-opposite pairs. The Earth pulls on the Moon with force F<sub>EM</sub>, and simultaneously the Moon pulls back on Earth with force F<sub>ME</sub> = −F<sub>EM</sub>.</p>
+            <div class="formula">
+                F<sub>EM</sub> = G (M<sub>E</sub> M<sub>M</sub>) / r²<br>
+                F<sub>ME</sub> = −F<sub>EM</sub>
+            </div>
+            <p>Both objects accelerate: a<sub>E</sub> = F<sub>ME</sub>/M<sub>E</sub> and a<sub>M</sub> = F<sub>EM</sub>/M<sub>M</sub>. Earth barely moves because M<sub>E</sub> >> M<sub>M</sub>, but it does wobble slightly!</p>
+        </div>
+        
+        <h2>2. Field Picture: Distributed, Space-Filling Influence</h2>
+        
+        <div class="comparison">
+            <div class="card field">
+                <h4>Key Features</h4>
+                <ul>
+                    <li><strong>Distributed:</strong> Field has a value at every point in space</li>
+                    <li><strong>Space-filling:</strong> No "empty" space</li>
+                    <li><strong>Source and test:</strong> Source creates field; test mass experiences it</li>
+                    <li><strong>Local interaction:</strong> Test mass only "feels" field at its location</li>
+                    <li><strong>Field carries energy/momentum:</strong> Fields are physical!</li>
+                </ul>
+            </div>
+            
+            <div class="card field">
+                <h4>When to Use</h4>
+                <ul>
+                    <li>Multiple sources (superposition)</li>
+                    <li>Continuous matter distributions</li>
+                    <li>Electromagnetic waves (field propagation)</li>
+                    <li>Potential energy landscapes</li>
+                    <li>When source doesn't care about test mass</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Interactive: Gravitational Field (Field Picture)</h3>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label>Source mass: <span id="sourceMassVal">1.0</span> Earth masses</label>
+                <input type="range" id="sourceMass" min="0.1" max="3" value="1" step="0.1">
+            </div>
+            <div class="button-group">
+                <button onclick="updateField()">Update Field</button>
+                <button onclick="dropTestMass()">Drop Test Mass</button>
+                <button onclick="resetField()">Reset</button>
+            </div>
+        </div>
+        
+        <canvas id="fieldCanvas" width="800" height="600"></canvas>
+        
+        <div class="kpi">
+            <div class="label">Field at test mass</div>
+            <div class="value" id="fieldStrength">—</div>
+        </div>
+        <div class="kpi">
+            <div class="label">Test mass position</div>
+            <div class="value" id="testPos">—</div>
+        </div>
+        <div class="kpi">
+            <div class="label">Test mass acceleration</div>
+            <div class="value" id="testAccel">—</div>
+        </div>
+        
+        <div class="example-box">
+            <h3>The Gravitational Field</h3>
+            <p>Earth creates a gravitational field <strong>g</strong> at every point in space:</p>
+            <div class="formula">
+                g = GM/r²   (pointing toward Earth)
+            </div>
+            <p>A test mass m placed in this field experiences force:</p>
+            <div class="formula">
+                F = mg
+            </div>
+            <p><strong>Key insight:</strong> The field exists whether or not a test mass is present! Earth's mass creates the field; the test mass merely responds to it. This resolves action-at-a-distance: objects interact <em>locally</em> with the field.</p>
+        </div>
+        
+        <h2>3. Quantum Fields: Particles <em>Are</em> Excitations of Fields</h2>
+        
+        <div class="concept-box">
+            <h3>Wave-Particle Duality</h3>
+            <p>In quantum mechanics, the distinction between particles and fields dissolves. An electron isn't a tiny ball—it's an excitation of the electron field! The "particle" picture and "wave" picture are both approximations to the underlying quantum field.</p>
+            <p><strong>De Broglie wavelength:</strong> λ = h/p — Every particle has a wavelength!</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(0)">Electron Diffraction</button>
+            <button class="tab" onclick="switchTab(1)">Compton Scattering</button>
+            <button class="tab" onclick="switchTab(2)">Double Slit</button>
+        </div>
+        
+        <div id="quantumTab0" class="tab-content active">
+            <h3>Electron Diffraction: Wave Nature of Matter</h3>
+            <p>When electrons pass through a crystal or narrow aperture, they produce a circular (target-like) diffraction pattern—just like light waves!</p>
+            
+            <canvas id="diffractionCanvas" width="800" height="400"></canvas>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Electron momentum: <span id="momentumVal">1.0</span> × 10⁻²⁴ kg·m/s</label>
+                    <input type="range" id="momentum" min="0.5" max="3" value="1" step="0.1" oninput="updateDiffraction()">
+                </div>
+            </div>
+            
+            <div class="kpi">
+                <div class="label">De Broglie wavelength</div>
+                <div class="value" id="wavelength">—</div>
+            </div>
+            <div class="kpi">
+                <div class="label">Ring radius</div>
+                <div class="value" id="ringRadius">—</div>
+            </div>
+            
+            <div class="example-box">
+                <h3>Why Diffraction Proves Wave Nature</h3>
+                <p>Diffraction is a purely wave phenomenon—particles on classical trajectories cannot diffract. When electrons form interference rings, we must accept they have wavelength λ = h/p.</p>
+                <p><strong>Lower momentum → longer wavelength → larger diffraction pattern</strong></p>
+            </div>
+        </div>
+        
+        <div id="quantumTab1" class="tab-content">
+            <h3>Compton Scattering: Particle Nature of Light</h3>
+            <p>When X-rays scatter off electrons, they behave like particles (photons) with momentum p = h/λ and energy E = hf.</p>
+            
+            <canvas id="comptonCanvas" width="800" height="400"></canvas>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Scattering angle: <span id="scatterAngleVal">90</span>°</label>
+                    <input type="range" id="scatterAngle" min="0" max="180" value="90" step="10" oninput="updateCompton()">
+                </div>
+            </div>
+            
+            <div class="kpi">
+                <div class="label">Incident wavelength</div>
+                <div class="value" id="lambda0">0.071 nm</div>
+            </div>
+            <div class="kpi">
+                <div class="label">Scattered wavelength</div>
+                <div class="value" id="lambda1">—</div>
+            </div>
+            <div class="kpi">
+                <div class="label">Wavelength shift Δλ</div>
+                <div class="value" id="deltaLambda">—</div>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>Compton Formula</h3>
+                <div class="formula">
+                    Δλ = λ' − λ = (h/m<sub>e</sub>c)(1 − cos θ)
+                </div>
+                <p>This formula treats light as particles (photons) colliding with electrons. Conservation of energy and momentum gives the wavelength shift. <strong>Cannot be explained by classical wave theory!</strong></p>
+            </div>
+        </div>
+        
+        <div id="quantumTab2" class="tab-content">
+            <h3>Double Slit: The Ultimate Mystery</h3>
+            <p>Send electrons one at a time through two slits. Each electron arrives at a definite location (particle), but the pattern builds up interference fringes (wave).</p>
+            
+            <canvas id="doubleSlitCanvas" width="800" height="500"></canvas>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Electrons fired: <span id="electronCountVal">0</span></label>
+                    <button onclick="fireElectrons(10)">Fire 10</button>
+                    <button onclick="fireElectrons(100)">Fire 100</button>
+                    <button onclick="fireElectrons(1000)">Fire 1000</button>
+                    <button onclick="resetDoubleSlit()">Reset</button>
+                </div>
+            </div>
+            
+            <div class="concept-box">
+                <h3>The Quantum Paradox</h3>
+                <p>Each electron goes through as a particle (one at a time), yet the pattern shows wave interference. If you try to detect "which slit" the electron went through, the interference pattern disappears!</p>
+                <p><strong>Interpretation:</strong> The electron is neither purely a particle nor purely a wave—it's a quantum object described by a wavefunction ψ, which is a field. |ψ|² gives the probability density of finding the particle.</p>
+            </div>
+        </div>
+        
+        <h2>Comparison Table: When to Use Each Picture</h2>
+        
+        <table>
+            <tr>
+                <th>Situation</th>
+                <th>Best Picture</th>
+                <th>Why</th>
+            </tr>
+            <tr>
+                <td>Satellite orbit calculation</td>
+                <td><strong>Particle</strong></td>
+                <td>Need specific trajectory; Newton's laws sufficient</td>
+            </tr>
+            <tr>
+                <td>Electric potential around charged sphere</td>
+                <td><strong>Field</strong></td>
+                <td>Field exists everywhere; potential landscape useful</td>
+            </tr>
+            <tr>
+                <td>Electromagnetic waves</td>
+                <td><strong>Field</strong></td>
+                <td>Waves are oscillations of E and B fields propagating</td>
+            </tr>
+            <tr>
+                <td>Collision of two cars</td>
+                <td><strong>Particle</strong></td>
+                <td>Macroscopic objects with definite positions</td>
+            </tr>
+            <tr>
+                <td>Electron in atom</td>
+                <td><strong>Quantum field</strong></td>
+                <td>Electron is delocalized; described by wavefunction</td>
+            </tr>
+            <tr>
+                <td>Light diffraction</td>
+                <td><strong>Wave/Field</strong></td>
+                <td>Interference requires wave picture</td>
+            </tr>
+            <tr>
+                <td>Photoelectric effect</td>
+                <td><strong>Particle (photon)</strong></td>
+                <td>Energy transfer in discrete quanta</td>
+            </tr>
+            <tr>
+                <td>Gravitational field of Earth</td>
+                <td><strong>Field</strong></td>
+                <td>Field permeates space; useful for any test mass</td>
+            </tr>
+        </table>
+        
+        <h2>Summary: Complementary Perspectives</h2>
+        
+        <div class="comparison">
+            <div class="card particle">
+                <h4>Particle Picture</h4>
+                <ul>
+                    <li>Objects have definite positions</li>
+                    <li>Forces act directly between objects (action-at-a-distance)</li>
+                    <li>Newton's 3rd law pairs</li>
+                    <li>Trajectories through space</li>
+                    <li><strong>Best for:</strong> Orbital mechanics, collisions, macroscopic dynamics</li>
+                </ul>
+            </div>
+            
+            <div class="card field">
+                <h4>Field Picture</h4>
+                <ul>
+                    <li>Field has value at every point in space</li>
+                    <li>Local interaction: object responds to field at its location</li>
+                    <li>Field carries energy and momentum</li>
+                    <li>Superposition of multiple sources</li>
+                    <li><strong>Best for:</strong> EM waves, potential landscapes, continuous sources</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="comparison">
+            <div class="card quantum">
+                <h4>Quantum Field Picture</h4>
+                <ul>
+                    <li>Particles are excitations of underlying fields</li>
+                    <li>Wave-particle duality: electrons diffract, photons collide</li>
+                    <li>Wavefunction ψ describes probability amplitude</li>
+                    <li>Measurement "collapses" wavefunction to definite position</li>
+                    <li><strong>Best for:</strong> Atomic/subatomic scales, interference, quantum phenomena</li>
+                </ul>
+            </div>
+            
+            <div class="card quantum">
+                <h4>The Deep Truth</h4>
+                <ul>
+                    <li>At the deepest level, everything is quantum fields</li>
+                    <li>Electrons, photons, quarks—all are field excitations</li>
+                    <li>"Particle" and "wave" are classical approximations</li>
+                    <li>Which picture to use depends on the question you're asking</li>
+                    <li><strong>Reality:</strong> Quantum field theory (beyond A-level!)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="concept-box">
+            <h3>The Pragmatic View for IB/A-Level</h3>
+            <p><strong>Use particles when:</strong> You need to track specific objects with definite positions and velocities (orbits, projectiles, collisions).</p>
+            <p><strong>Use fields when:</strong> You have sources creating influences in space, or when dealing with waves and continuous distributions.</p>
+            <p><strong>Use quantum picture when:</strong> Working at atomic scales where λ = h/p becomes comparable to system size—diffraction, photoelectric effect, atomic structure.</p>
+            <p style="margin-top: 20px; font-size: 1.15em;"><strong>Key insight:</strong> These aren't competing theories—they're different lenses for viewing the same reality. The universe doesn't "choose" one; we choose which is most useful for the problem at hand.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Orbit Animation
+        const orbitCanvas = document.getElementById('orbitCanvas');
+        const orbitCtx = orbitCanvas.getContext('2d');
+        let orbitAnimating = false;
+        let orbitAngle = 0;
+        let orbitFrame = null;
+        
+        const G = 6.67e-11;
+        const M_earth = 5.97e24; // kg
+        const M_moon = 7.35e22; // kg
+        const R_earth = 6.37e6; // m (for drawing)
+        
+        document.getElementById('orbitRadius').oninput = function() {
+            document.getElementById('orbitRadiusVal').textContent = this.value;
+            if (!orbitAnimating) drawOrbit();
+        };
+        
+        function startOrbit() {
+            orbitAnimating = true;
+            animateOrbit();
+        }
+        
+        function pauseOrbit() {
+            orbitAnimating = false;
+            if (orbitFrame) cancelAnimationFrame(orbitFrame);
+        }
+        
+        function resetOrbit() {
+            pauseOrbit();
+            orbitAngle = 0;
+            drawOrbit();
+        }
+        
+        function animateOrbit() {
+            if (!orbitAnimating) return;
+            orbitAngle += 0.02;
+            drawOrbit();
+            orbitFrame = requestAnimationFrame(animateOrbit);
+        }
+        
+        function drawOrbit() {
+            const width = orbitCanvas.width;
+            const height = orbitCanvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            orbitCtx.clearRect(0, 0, width, height);
+            
+            // Get orbit radius in meters
+            const r_orbit = parseFloat(document.getElementById('orbitRadius').value) * 1e6; // Mm to m
+            const r_orbit_px = 200; // pixels for display
+            
+            // Calculate force
+            const F = G * M_earth * M_moon / (r_orbit * r_orbit);
+            
+            // Draw orbit path
+            orbitCtx.strokeStyle = '#bdc3c7';
+            orbitCtx.lineWidth = 2;
+            orbitCtx.setLineDash([5, 5]);
+            orbitCtx.beginPath();
+            orbitCtx.arc(centerX, centerY, r_orbit_px, 0, Math.PI * 2);
+            orbitCtx.stroke();
+            orbitCtx.setLineDash([]);
+            
+            // Draw Earth
+            orbitCtx.fillStyle = '#3498db';
+            orbitCtx.beginPath();
+            orbitCtx.arc(centerX, centerY, 40, 0, Math.PI * 2);
+            orbitCtx.fill();
+            orbitCtx.fillStyle = '#2c3e50';
+            orbitCtx.font = 'bold 16px Arial';
+            orbitCtx.textAlign = 'center';
+            orbitCtx.fillText('Earth', centerX, centerY + 5);
+            
+            // Moon position
+            const moonX = centerX + r_orbit_px * Math.cos(orbitAngle);
+            const moonY = centerY + r_orbit_px * Math.sin(orbitAngle);
+            
+            // Draw force vectors
+            const forceScale = 3e19; // scale for drawing
+            const F_draw = Math.min(F / forceScale, 80);
+            
+            // Force on Moon (toward Earth) - RED
+            const dx_em = centerX - moonX;
+            const dy_em = centerY - moonY;
+            const d_em = Math.sqrt(dx_em * dx_em + dy_em * dy_em);
+            const ux_em = dx_em / d_em;
+            const uy_em = dy_em / d_em;
+            
+            orbitCtx.strokeStyle = '#e74c3c';
+            orbitCtx.lineWidth = 3;
+            orbitCtx.beginPath();
+            orbitCtx.moveTo(moonX, moonY);
+            orbitCtx.lineTo(moonX + ux_em * F_draw, moonY + uy_em * F_draw);
+            orbitCtx.stroke();
+            
+            // Arrowhead for F_EM
+            orbitCtx.fillStyle = '#e74c3c';
+            orbitCtx.beginPath();
+            const angle_em = Math.atan2(uy_em, ux_em);
+            orbitCtx.moveTo(moonX + ux_em * F_draw, moonY + uy_em * F_draw);
+            orbitCtx.lineTo(moonX + ux_em * F_draw - 10 * Math.cos(angle_em - Math.PI/6), 
+                           moonY + uy_em * F_draw - 10 * Math.sin(angle_em - Math.PI/6));
+            orbitCtx.lineTo(moonX + ux_em * F_draw - 10 * Math.cos(angle_em + Math.PI/6), 
+                           moonY + uy_em * F_draw - 10 * Math.sin(angle_em + Math.PI/6));
+            orbitCtx.fill();
+            
+            orbitCtx.fillStyle = '#e74c3c';
+            orbitCtx.font = '14px Arial';
+            orbitCtx.fillText('F_EM', moonX + ux_em * F_draw + 20, moonY + uy_em * F_draw);
+            
+            // Force on Earth (away from Moon) - GREEN
+            orbitCtx.strokeStyle = '#27ae60';
+            orbitCtx.lineWidth = 3;
+            orbitCtx.beginPath();
+            orbitCtx.moveTo(centerX, centerY);
+            orbitCtx.lineTo(centerX - ux_em * F_draw * 0.3, centerY - uy_em * F_draw * 0.3);
+            orbitCtx.stroke();
+            
+            // Arrowhead for F_ME
+            orbitCtx.fillStyle = '#27ae60';
+            orbitCtx.beginPath();
+            const angle_me = Math.atan2(-uy_em, -ux_em);
+            orbitCtx.moveTo(centerX - ux_em * F_draw * 0.3, centerY - uy_em * F_draw * 0.3);
+            orbitCtx.lineTo(centerX - ux_em * F_draw * 0.3 - 10 * Math.cos(angle_me - Math.PI/6), 
+                           centerY - uy_em * F_draw * 0.3 - 10 * Math.sin(angle_me - Math.PI/6));
+            orbitCtx.lineTo(centerX - ux_em * F_draw * 0.3 - 10 * Math.cos(angle_me + Math.PI/6), 
+                           centerY - uy_em * F_draw * 0.3 - 10 * Math.sin(angle_me + Math.PI/6));
+            orbitCtx.fill();
+            
+            orbitCtx.fillStyle = '#27ae60';
+            orbitCtx.font = '14px Arial';
+            orbitCtx.fillText('F_ME', centerX - ux_em * F_draw * 0.3 - 30, centerY - uy_em * F_draw * 0.3);
+            
+            // Draw Moon
+            orbitCtx.fillStyle = '#95a5a6';
+            orbitCtx.beginPath();
+            orbitCtx.arc(moonX, moonY, 20, 0, Math.PI * 2);
+            orbitCtx.fill();
+            orbitCtx.fillStyle = '#2c3e50';
+            orbitCtx.font = 'bold 14px Arial';
+            orbitCtx.fillText('Moon', moonX, moonY + 5);
+            
+            // Update KPIs
+            document.getElementById('forceEM').textContent = F.toExponential(2) + ' N';
+            document.getElementById('forceME').textContent = '−' + F.toExponential(2) + ' N';
+        }
+        
+        // Field visualization
+        const fieldCanvas = document.getElementById('fieldCanvas');
+        const fieldCtx = fieldCanvas.getContext('2d');
+        let testMass = null;
+        let testMassVelocity = 0;
+        let fieldAnimating = false;
+        let fieldFrame = null;
+        
+        document.getElementById('sourceMass').oninput = function() {
+            document.getElementById('sourceMassVal').textContent = this.value;
+            updateField();
+        };
+        
+        function updateField() {
+            drawField();
+        }
+        
+        function drawField() {
+            const width = fieldCanvas.width;
+            const height = fieldCanvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            fieldCtx.clearRect(0, 0, width, height);
+            
+            const M = parseFloat(document.getElementById('sourceMass').value) * M_earth;
+            
+            // Draw field lines
+            const numLines = 12;
+            for (let i = 0; i < numLines; i++) {
+                const angle = (i / numLines) * 2 * Math.PI;
+                fieldCtx.strokeStyle = 'rgba(52, 152, 219, 0.5)';
+                fieldCtx.lineWidth = 2;
+                fieldCtx.beginPath();
+                
+                const startR = 50;
+                const endR = 280;
+                for (let r = startR; r <= endR; r += 5) {
+                    const x = centerX + r * Math.cos(angle);
+                    const y = centerY + r * Math.sin(angle);
+                    if (r === startR) fieldCtx.moveTo(x, y);
+                    else fieldCtx.lineTo(x, y);
+                }
+                fieldCtx.stroke();
+                
+                // Arrowhead
+                const arrowR = (startR + endR) / 2;
+                const arrowX = centerX + arrowR * Math.cos(angle);
+                const arrowY = centerY + arrowR * Math.sin(angle);
+                fieldCtx.fillStyle = 'rgba(52, 152, 219, 0.7)';
+                fieldCtx.beginPath();
+                fieldCtx.moveTo(arrowX, arrowY);
+                fieldCtx.lineTo(arrowX - 8 * Math.cos(angle - Math.PI/6), arrowY - 8 * Math.sin(angle - Math.PI/6));
+                fieldCtx.lineTo(arrowX - 8 * Math.cos(angle + Math.PI/6), arrowY - 8 * Math.sin(angle + Math.PI/6));
+                fieldCtx.fill();
+            }
+            
+            // Draw source mass
+            fieldCtx.fillStyle = '#e74c3c';
+            fieldCtx.beginPath();
+            fieldCtx.arc(centerX, centerY, 40, 0, Math.PI * 2);
+            fieldCtx.fill();
+            fieldCtx.fillStyle = 'white';
+            fieldCtx.font = 'bold 16px Arial';
+            fieldCtx.textAlign = 'center';
+            fieldCtx.fillText('M', centerX, centerY + 5);
+            
+            // Draw test mass if present
+            if (testMass) {
+                fieldCtx.fillStyle = '#27ae60';
+                fieldCtx.beginPath();
+                fieldCtx.arc(testMass.x, testMass.y, 15, 0, Math.PI * 2);
+                fieldCtx.fill();
+                fieldCtx.fillStyle = 'white';
+                fieldCtx.font = 'bold 12px Arial';
+                fieldCtx.fillText('m', testMass.x, testMass.y + 4);
+                
+                // Calculate and display field at test mass
+                const dx = testMass.x - centerX;
+                const dy = testMass.y - centerY;
+                const r_m = Math.sqrt(dx * dx + dy * dy);
+                const r_actual = r_m * 2e7; // scale to meters
+                const g = G * M / (r_actual * r_actual);
+                
+                document.getElementById('fieldStrength').textContent = g.toExponential(2) + ' m/s²';
+                document.getElementById('testPos').textContent = (r_actual / 1e6).toFixed(1) + ' Mm';
+                document.getElementById('testAccel').textContent = g.toExponential(2) + ' m/s²';
+            }
+        }
+        
+        function dropTestMass() {
+            testMass = { x: fieldCanvas.width / 2, y: 100 };
+            testMassVelocity = 0;
+            fieldAnimating = true;
+            animateField();
+        }
+        
+        function animateField() {
+            if (!fieldAnimating) return;
+            
+            const centerX = fieldCanvas.width / 2;
+            const centerY = fieldCanvas.height / 2;
+            const M = parseFloat(document.getElementById('sourceMass').value) * M_earth;
+            
+            const dx = testMass.x - centerX;
+            const dy = testMass.y - centerY;
+            const r_m = Math.sqrt(dx * dx + dy * dy);
+            
+            if (r_m < 50) {
+                fieldAnimating = false;
+                return;
+            }
+            
+            const r_actual = r_m * 2e7; // scale to meters
+            const g = G * M / (r_actual * r_actual);
+            
+            const ux = -dx / r_m;
+            const uy = -dy / r_m;
+            
+            testMassVelocity += g * 0.01; // timestep
+            testMass.x += ux * testMassVelocity * 0.0001;
+            testMass.y += uy * testMassVelocity * 0.0001;
+            
+            drawField();
+            fieldFrame = requestAnimationFrame(animateField);
+        }
+        
+        function resetField() {
+            fieldAnimating = false;
+            if (fieldFrame) cancelAnimationFrame(fieldFrame);
+            testMass = null;
+            testMassVelocity = 0;
+            drawField();
+        }
+        
+        // Diffraction pattern
+        const diffractionCanvas = document.getElementById('diffractionCanvas');
+        const diffractionCtx = diffractionCanvas.getContext('2d');
+        
+        function updateDiffraction() {
+            const p = parseFloat(document.getElementById('momentum').value) * 1e-24;
+            document.getElementById('momentumVal').textContent = (p / 1e-24).toFixed(1);
+            
+            const h = 6.626e-34;
+            const lambda = h / p;
+            
+            document.getElementById('wavelength').textContent = (lambda * 1e10).toFixed(2) + ' Å';
+            
+            drawDiffraction(lambda);
+        }
+        
+        function drawDiffraction(lambda) {
+            const width = diffractionCanvas.width;
+            const height = diffractionCanvas.height;
+            
+            diffractionCtx.clearRect(0, 0, width, height);
+            
+            // Draw target
+            diffractionCtx.strokeStyle = '#95a5a6';
+            diffractionCtx.lineWidth = 2;
+            for (let r = 0; r < width / 2; r += 20) {
+                diffractionCtx.beginPath();
+                diffractionCtx.arc(width / 2, height / 2, r, 0, Math.PI * 2);
+                diffractionCtx.stroke();
+            }
+            
+            // Draw diffraction rings (simplified)
+            const scale = 1e11 / lambda; // inverse wavelength scale
+            const numRings = 5;
+            
+            for (let i = 1; i <= numRings; i++) {
+                const r = i * 50 / scale;
+                const intensity = Math.exp(-i * 0.5);
+                
+                diffractionCtx.strokeStyle = `rgba(255, 100, 100, ${intensity})`;
+                diffractionCtx.lineWidth = 3 + intensity * 2;
+                diffractionCtx.beginPath();
+                diffractionCtx.arc(width / 2, height / 2, r, 0, Math.PI * 2);
+                diffractionCtx.stroke();
+            }
+            
+            // Central spot
+            diffractionCtx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            diffractionCtx.beginPath();
+            diffractionCtx.arc(width / 2, height / 2, 15, 0, Math.PI * 2);
+            diffractionCtx.fill();
+            
+            const avgRingR = 50 / scale * 2.5;
+            document.getElementById('ringRadius').textContent = avgRingR.toFixed(1) + ' px';
+        }
+        
+        // Compton scattering
+        const comptonCanvas = document.getElementById('comptonCanvas');
+        const comptonCtx = comptonCanvas.getContext('2d');
+        
+        function updateCompton() {
+            const theta = parseFloat(document.getElementById('scatterAngle').value);
+            document.getElementById('scatterAngleVal').textContent = theta;
+            
+            drawCompton(theta);
+        }
+        
+        function drawCompton(theta_deg) {
+            const width = comptonCanvas.width;
+            const height = comptonCanvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            comptonCtx.clearRect(0, 0, width, height);
+            
+            const lambda0 = 0.071e-9; // m
+            const h = 6.626e-34;
+            const me = 9.11e-31;
+            const c = 3e8;
+            
+            const theta_rad = theta_deg * Math.PI / 180;
+            const deltaLambda = (h / (me * c)) * (1 - Math.cos(theta_rad));
+            const lambda1 = lambda0 + deltaLambda;
+            
+            document.getElementById('lambda1').textContent = (lambda1 * 1e9).toFixed(3) + ' nm';
+            document.getElementById('deltaLambda').textContent = (deltaLambda * 1e12).toFixed(2) + ' pm';
+            
+            // Draw electron at rest
+            comptonCtx.fillStyle = '#3498db';
+            comptonCtx.beginPath();
+            comptonCtx.arc(centerX, centerY, 20, 0, Math.PI * 2);
+            comptonCtx.fill();
+            comptonCtx.fillStyle = 'white';
+            comptonCtx.font = 'bold 14px Arial';
+            comptonCtx.textAlign = 'center';
+            comptonCtx.fillText('e⁻', centerX, centerY + 5);
+            
+            // Incident photon
+            comptonCtx.strokeStyle = '#e74c3c';
+            comptonCtx.lineWidth = 4;
+            comptonCtx.setLineDash([]);
+            comptonCtx.beginPath();
+            comptonCtx.moveTo(centerX - 150, centerY);
+            comptonCtx.lineTo(centerX - 30, centerY);
+            comptonCtx.stroke();
+            
+            // Arrowhead
+            comptonCtx.fillStyle = '#e74c3c';
+            comptonCtx.beginPath();
+            comptonCtx.moveTo(centerX - 30, centerY);
+            comptonCtx.lineTo(centerX - 40, centerY - 8);
+            comptonCtx.lineTo(centerX - 40, centerY + 8);
+            comptonCtx.fill();
+            
+            comptonCtx.fillStyle = '#e74c3c';
+            comptonCtx.textAlign = 'left';
+            comptonCtx.fillText('γ (λ₀)', centerX - 140, centerY - 15);
+            
+            // Scattered photon
+            const scatterX = centerX + 150 * Math.cos(theta_rad);
+            const scatterY = centerY - 150 * Math.sin(theta_rad);
+            
+            comptonCtx.strokeStyle = '#f39c12';
+            comptonCtx.lineWidth = 3;
+            comptonCtx.beginPath();
+            comptonCtx.moveTo(centerX + 30 * Math.cos(theta_rad), centerY - 30 * Math.sin(theta_rad));
+            comptonCtx.lineTo(scatterX, scatterY);
+            comptonCtx.stroke();
+            
+            // Arrowhead
+            comptonCtx.fillStyle = '#f39c12';
+            comptonCtx.beginPath();
+            comptonCtx.moveTo(scatterX, scatterY);
+            comptonCtx.lineTo(scatterX - 10 * Math.cos(theta_rad - Math.PI/6), scatterY + 10 * Math.sin(theta_rad - Math.PI/6));
+            comptonCtx.lineTo(scatterX - 10 * Math.cos(theta_rad + Math.PI/6), scatterY + 10 * Math.sin(theta_rad + Math.PI/6));
+            comptonCtx.fill();
+            
+            comptonCtx.fillStyle = '#f39c12';
+            comptonCtx.fillText("γ' (λ₀+Δλ)", scatterX + 10, scatterY - 10);
+            
+            // Scattered electron
+            const recoilAngle = -theta_rad * 0.3; // simplified
+            const recoilX = centerX + 120 * Math.cos(recoilAngle);
+            const recoilY = centerY - 120 * Math.sin(recoilAngle);
+            
+            comptonCtx.strokeStyle = '#27ae60';
+            comptonCtx.lineWidth = 3;
+            comptonCtx.beginPath();
+            comptonCtx.moveTo(centerX + 25 * Math.cos(recoilAngle), centerY - 25 * Math.sin(recoilAngle));
+            comptonCtx.lineTo(recoilX, recoilY);
+            comptonCtx.stroke();
+            
+            // Arrowhead
+            comptonCtx.fillStyle = '#27ae60';
+            comptonCtx.beginPath();
+            comptonCtx.moveTo(recoilX, recoilY);
+            comptonCtx.lineTo(recoilX - 10 * Math.cos(recoilAngle - Math.PI/6), recoilY + 10 * Math.sin(recoilAngle - Math.PI/6));
+            comptonCtx.lineTo(recoilX - 10 * Math.cos(recoilAngle + Math.PI/6), recoilY + 10 * Math.sin(recoilAngle + Math.PI/6));
+            comptonCtx.fill();
+            
+            comptonCtx.fillStyle = '#27ae60';
+            comptonCtx.fillText('e⁻ (recoil)', recoilX + 10, recoilY + 5);
+            
+            // Angle arc
+            comptonCtx.strokeStyle = '#95a5a6';
+            comptonCtx.lineWidth = 1;
+            comptonCtx.beginPath();
+            comptonCtx.arc(centerX, centerY, 60, -theta_rad, 0);
+            comptonCtx.stroke();
+            
+            comptonCtx.fillStyle = '#95a5a6';
+            comptonCtx.font = '14px Arial';
+            comptonCtx.fillText('θ = ' + theta_deg + '°', centerX + 70, centerY - 20);
+        }
+        
+        // Double slit
+        const doubleSlitCanvas = document.getElementById('doubleSlitCanvas');
+        const doubleSlitCtx = doubleSlitCanvas.getContext('2d');
+        let electronHits = [];
+        let electronCount = 0;
+        
+        function fireElectrons(n) {
+            for (let i = 0; i < n; i++) {
+                // Interference pattern: |ψ|² ∝ cos²((πy d)/(λ L))
+                // Simplified: pick y with interference probability
+                const y = (Math.random() - 0.5) * 400;
+                const d = 50; // slit separation (arbitrary units)
+                const lambda = 10; // de Broglie wavelength (arbitrary)
+                const L = 200; // screen distance
+                
+                const phase = (Math.PI * y * d) / (lambda * L);
+                const prob = Math.cos(phase) * Math.cos(phase);
+                
+                if (Math.random() < prob * 0.5 + 0.1) { // add background
+                    electronHits.push({ x: 700, y: doubleSlitCanvas.height / 2 + y });
+                    electronCount++;
+                }
+            }
+            
+            document.getElementById('electronCountVal').textContent = electronCount;
+            drawDoubleSlit();
+        }
+        
+        function resetDoubleSlit() {
+            electronHits = [];
+            electronCount = 0;
+            document.getElementById('electronCountVal').textContent = '0';
+            drawDoubleSlit();
+        }
+        
+        function drawDoubleSlit() {
+            const width = doubleSlitCanvas.width;
+            const height = doubleSlitCanvas.height;
+            const centerY = height / 2;
+            
+            doubleSlitCtx.clearRect(0, 0, width, height);
+            
+            // Draw slits
+            doubleSlitCtx.fillStyle = '#34495e';
+            doubleSlitCtx.fillRect(200, 0, 20, centerY - 40);
+            doubleSlitCtx.fillRect(200, centerY - 20, 20, 40); // gap 1
+            doubleSlitCtx.fillRect(200, centerY + 20, 20, height - centerY - 20); // gap 2
+            
+            // Labels
+            doubleSlitCtx.fillStyle = '#2c3e50';
+            doubleSlitCtx.font = '14px Arial';
+            doubleSlitCtx.fillText('Barrier with', 210, centerY - 80);
+            doubleSlitCtx.fillText('two slits', 210, centerY - 60);
+            
+            // Draw screen
+            doubleSlitCtx.strokeStyle = '#95a5a6';
+            doubleSlitCtx.lineWidth = 3;
+            doubleSlitCtx.beginPath();
+            doubleSlitCtx.moveTo(700, 0);
+            doubleSlitCtx.lineTo(700, height);
+            doubleSlitCtx.stroke();
+            
+            doubleSlitCtx.fillStyle = '#2c3e50';
+            doubleSlitCtx.fillText('Screen', 650, 30);
+            
+            // Draw electron source
+            doubleSlitCtx.fillStyle = '#e74c3c';
+            doubleSlitCtx.beginPath();
+            doubleSlitCtx.arc(50, centerY, 15, 0, Math.PI * 2);
+            doubleSlitCtx.fill();
+            
+            doubleSlitCtx.fillStyle = '#2c3e50';
+            doubleSlitCtx.fillText('e⁻ source', 20, centerY - 25);
+            
+            // Draw hits
+            for (let hit of electronHits) {
+                doubleSlitCtx.fillStyle = 'rgba(52, 152, 219, 0.6)';
+                doubleSlitCtx.beginPath();
+                doubleSlitCtx.arc(hit.x, hit.y, 2, 0, Math.PI * 2);
+                doubleSlitCtx.fill();
+            }
+            
+            // Draw intensity histogram on right
+            if (electronHits.length > 10) {
+                const bins = 40;
+                const binHeight = height / bins;
+                const counts = new Array(bins).fill(0);
+                
+                for (let hit of electronHits) {
+                    const bin = Math.floor((hit.y / height) * bins);
+                    if (bin >= 0 && bin < bins) counts[bin]++;
+                }
+                
+                const maxCount = Math.max(...counts);
+                
+                for (let i = 0; i < bins; i++) {
+                    const barHeight = (counts[i] / maxCount) * 80;
+                    doubleSlitCtx.fillStyle = 'rgba(155, 89, 182, 0.7)';
+                    doubleSlitCtx.fillRect(720, i * binHeight, barHeight, binHeight);
+                }
+            }
+        }
+        
+        // Tab switching
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach((tab, i) => {
+                if (i === index) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            contents.forEach((content, i) => {
+                if (i === index) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+            
+            // Initialize visualizations for each tab
+            if (index === 0) {
+                updateDiffraction();
+            } else if (index === 1) {
+                updateCompton();
+            } else if (index === 2) {
+                drawDoubleSlit();
+            }
+        }
+        
+        // Initialize
+        drawOrbit();
+        drawField();
+        updateDiffraction();
+        updateCompton();
+        drawDoubleSlit();
+    </script>
+</body>
+</html>
