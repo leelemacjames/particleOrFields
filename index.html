@@ -740,9 +740,9 @@
             const moonX = centerX + r_orbit_px * Math.cos(orbitAngle);
             const moonY = centerY + r_orbit_px * Math.sin(orbitAngle);
             
-            // Draw force vectors
-            const forceScale = 3e19; // scale for drawing
-            const F_draw = Math.min(F / forceScale, 80);
+            // Draw force vectors (MUCH LONGER)
+            const forceScale = 1.5e19; // scale for drawing (longer arrows)
+            const F_draw = Math.min(F / forceScale, 120);
             
             // Force on Moon (toward Earth) - RED
             const dx_em = centerX - moonX;
@@ -752,7 +752,7 @@
             const uy_em = dy_em / d_em;
             
             orbitCtx.strokeStyle = '#e74c3c';
-            orbitCtx.lineWidth = 3;
+            orbitCtx.lineWidth = 4;
             orbitCtx.beginPath();
             orbitCtx.moveTo(moonX, moonY);
             orbitCtx.lineTo(moonX + ux_em * F_draw, moonY + uy_em * F_draw);
@@ -763,38 +763,46 @@
             orbitCtx.beginPath();
             const angle_em = Math.atan2(uy_em, ux_em);
             orbitCtx.moveTo(moonX + ux_em * F_draw, moonY + uy_em * F_draw);
-            orbitCtx.lineTo(moonX + ux_em * F_draw - 10 * Math.cos(angle_em - Math.PI/6), 
-                           moonY + uy_em * F_draw - 10 * Math.sin(angle_em - Math.PI/6));
-            orbitCtx.lineTo(moonX + ux_em * F_draw - 10 * Math.cos(angle_em + Math.PI/6), 
-                           moonY + uy_em * F_draw - 10 * Math.sin(angle_em + Math.PI/6));
+            orbitCtx.lineTo(moonX + ux_em * F_draw - 12 * Math.cos(angle_em - Math.PI/6), 
+                           moonY + uy_em * F_draw - 12 * Math.sin(angle_em - Math.PI/6));
+            orbitCtx.lineTo(moonX + ux_em * F_draw - 12 * Math.cos(angle_em + Math.PI/6), 
+                           moonY + uy_em * F_draw - 12 * Math.sin(angle_em + Math.PI/6));
             orbitCtx.fill();
             
+            // Label AWAY from objects for visibility
             orbitCtx.fillStyle = '#e74c3c';
-            orbitCtx.font = '14px Arial';
-            orbitCtx.fillText('F_EM', moonX + ux_em * F_draw + 20, moonY + uy_em * F_draw);
+            orbitCtx.font = 'bold 16px Arial';
+            const labelOffsetX = ux_em * (F_draw + 30);
+            const labelOffsetY = uy_em * (F_draw + 30);
+            orbitCtx.fillText('F_EM', moonX + labelOffsetX, moonY + labelOffsetY);
             
-            // Force on Earth (away from Moon) - GREEN
+            // Force on Earth (away from Moon) - GREEN (LONGER)
             orbitCtx.strokeStyle = '#27ae60';
-            orbitCtx.lineWidth = 3;
+            orbitCtx.lineWidth = 4;
             orbitCtx.beginPath();
             orbitCtx.moveTo(centerX, centerY);
-            orbitCtx.lineTo(centerX - ux_em * F_draw * 0.3, centerY - uy_em * F_draw * 0.3);
+            orbitCtx.lineTo(centerX - ux_em * F_draw * 0.5, centerY - uy_em * F_draw * 0.5); // Made longer (was 0.3)
             orbitCtx.stroke();
             
             // Arrowhead for F_ME
             orbitCtx.fillStyle = '#27ae60';
             orbitCtx.beginPath();
             const angle_me = Math.atan2(-uy_em, -ux_em);
-            orbitCtx.moveTo(centerX - ux_em * F_draw * 0.3, centerY - uy_em * F_draw * 0.3);
-            orbitCtx.lineTo(centerX - ux_em * F_draw * 0.3 - 10 * Math.cos(angle_me - Math.PI/6), 
-                           centerY - uy_em * F_draw * 0.3 - 10 * Math.sin(angle_me - Math.PI/6));
-            orbitCtx.lineTo(centerX - ux_em * F_draw * 0.3 - 10 * Math.cos(angle_me + Math.PI/6), 
-                           centerY - uy_em * F_draw * 0.3 - 10 * Math.sin(angle_me + Math.PI/6));
+            const tipX = centerX - ux_em * F_draw * 0.5;
+            const tipY = centerY - uy_em * F_draw * 0.5;
+            orbitCtx.moveTo(tipX, tipY);
+            orbitCtx.lineTo(tipX - 12 * Math.cos(angle_me - Math.PI/6), 
+                           tipY - 12 * Math.sin(angle_me - Math.PI/6));
+            orbitCtx.lineTo(tipX - 12 * Math.cos(angle_me + Math.PI/6), 
+                           tipY - 12 * Math.sin(angle_me + Math.PI/6));
             orbitCtx.fill();
             
+            // Label AWAY from Earth for visibility
             orbitCtx.fillStyle = '#27ae60';
-            orbitCtx.font = '14px Arial';
-            orbitCtx.fillText('F_ME', centerX - ux_em * F_draw * 0.3 - 30, centerY - uy_em * F_draw * 0.3);
+            orbitCtx.font = 'bold 16px Arial';
+            const labelOffsetX_me = -ux_em * (F_draw * 0.5 + 40);
+            const labelOffsetY_me = -uy_em * (F_draw * 0.5 + 40);
+            orbitCtx.fillText('F_ME', centerX + labelOffsetX_me, centerY + labelOffsetY_me);
             
             // Draw Moon
             orbitCtx.fillStyle = '#95a5a6';
@@ -837,7 +845,7 @@
             
             const M = parseFloat(document.getElementById('sourceMass').value) * M_earth;
             
-            // Draw field lines
+            // Draw field lines (pointing TOWARD Earth)
             const numLines = 12;
             for (let i = 0; i < numLines; i++) {
                 const angle = (i / numLines) * 2 * Math.PI;
@@ -845,9 +853,9 @@
                 fieldCtx.lineWidth = 2;
                 fieldCtx.beginPath();
                 
-                const startR = 50;
-                const endR = 280;
-                for (let r = startR; r <= endR; r += 5) {
+                const startR = 280; // Start far out
+                const endR = 50;    // End near Earth
+                for (let r = startR; r >= endR; r -= 5) {
                     const x = centerX + r * Math.cos(angle);
                     const y = centerY + r * Math.sin(angle);
                     if (r === startR) fieldCtx.moveTo(x, y);
@@ -855,19 +863,21 @@
                 }
                 fieldCtx.stroke();
                 
-                // Arrowhead
+                // Arrowhead pointing INWARD
                 const arrowR = (startR + endR) / 2;
                 const arrowX = centerX + arrowR * Math.cos(angle);
                 const arrowY = centerY + arrowR * Math.sin(angle);
                 fieldCtx.fillStyle = 'rgba(52, 152, 219, 0.7)';
                 fieldCtx.beginPath();
                 fieldCtx.moveTo(arrowX, arrowY);
-                fieldCtx.lineTo(arrowX - 8 * Math.cos(angle - Math.PI/6), arrowY - 8 * Math.sin(angle - Math.PI/6));
-                fieldCtx.lineTo(arrowX - 8 * Math.cos(angle + Math.PI/6), arrowY - 8 * Math.sin(angle + Math.PI/6));
+                // Arrow points toward center
+                const inwardAngle = angle + Math.PI;
+                fieldCtx.lineTo(arrowX - 10 * Math.cos(inwardAngle - Math.PI/6), arrowY - 10 * Math.sin(inwardAngle - Math.PI/6));
+                fieldCtx.lineTo(arrowX - 10 * Math.cos(inwardAngle + Math.PI/6), arrowY - 10 * Math.sin(inwardAngle + Math.PI/6));
                 fieldCtx.fill();
             }
             
-            // Draw source mass
+            // Draw source mass (Earth)
             fieldCtx.fillStyle = '#e74c3c';
             fieldCtx.beginPath();
             fieldCtx.arc(centerX, centerY, 40, 0, Math.PI * 2);
@@ -876,6 +886,10 @@
             fieldCtx.font = 'bold 16px Arial';
             fieldCtx.textAlign = 'center';
             fieldCtx.fillText('M', centerX, centerY + 5);
+            
+            fieldCtx.fillStyle = '#2c3e50';
+            fieldCtx.font = '14px Arial';
+            fieldCtx.fillText('(Earth)', centerX, centerY + 60);
             
             // Draw test mass if present
             if (testMass) {
@@ -887,16 +901,48 @@
                 fieldCtx.font = 'bold 12px Arial';
                 fieldCtx.fillText('m', testMass.x, testMass.y + 4);
                 
-                // Calculate and display field at test mass
-                const dx = testMass.x - centerX;
-                const dy = testMass.y - centerY;
+                // Draw acceleration vector (pointing toward Earth)
+                const dx = centerX - testMass.x;
+                const dy = centerY - testMass.y;
                 const r_m = Math.sqrt(dx * dx + dy * dy);
                 const r_actual = r_m * 2e7; // scale to meters
                 const g = G * M / (r_actual * r_actual);
                 
+                // Draw double arrow showing acceleration
+                const arrowLength = 60;
+                const ux = dx / r_m;
+                const uy = dy / r_m;
+                
+                fieldCtx.strokeStyle = '#e74c3c';
+                fieldCtx.lineWidth = 3;
+                fieldCtx.beginPath();
+                fieldCtx.moveTo(testMass.x, testMass.y);
+                fieldCtx.lineTo(testMass.x + ux * arrowLength, testMass.y + uy * arrowLength);
+                fieldCtx.stroke();
+                
+                // Double arrowhead
+                const tipX = testMass.x + ux * arrowLength;
+                const tipY = testMass.y + uy * arrowLength;
+                const arrowAngle = Math.atan2(uy, ux);
+                
+                fieldCtx.fillStyle = '#e74c3c';
+                fieldCtx.beginPath();
+                fieldCtx.moveTo(tipX, tipY);
+                fieldCtx.lineTo(tipX - 12 * Math.cos(arrowAngle - Math.PI/6), tipY - 12 * Math.sin(arrowAngle - Math.PI/6));
+                fieldCtx.lineTo(tipX - 12 * Math.cos(arrowAngle + Math.PI/6), tipY - 12 * Math.sin(arrowAngle + Math.PI/6));
+                fieldCtx.fill();
+                
+                fieldCtx.fillStyle = '#e74c3c';
+                fieldCtx.font = 'bold 14px Arial';
+                fieldCtx.fillText('a = g', tipX + 20, tipY);
+                
                 document.getElementById('fieldStrength').textContent = g.toExponential(2) + ' m/s²';
                 document.getElementById('testPos').textContent = (r_actual / 1e6).toFixed(1) + ' Mm';
                 document.getElementById('testAccel').textContent = g.toExponential(2) + ' m/s²';
+            } else {
+                document.getElementById('fieldStrength').textContent = '—';
+                document.getElementById('testPos').textContent = '—';
+                document.getElementById('testAccel').textContent = '—';
             }
         }
         
@@ -914,8 +960,8 @@
             const centerY = fieldCanvas.height / 2;
             const M = parseFloat(document.getElementById('sourceMass').value) * M_earth;
             
-            const dx = testMass.x - centerX;
-            const dy = testMass.y - centerY;
+            const dx = centerX - testMass.x;  // Vector FROM test mass TO Earth
+            const dy = centerY - testMass.y;
             const r_m = Math.sqrt(dx * dx + dy * dy);
             
             if (r_m < 50) {
@@ -926,8 +972,8 @@
             const r_actual = r_m * 2e7; // scale to meters
             const g = G * M / (r_actual * r_actual);
             
-            const ux = -dx / r_m;
-            const uy = -dy / r_m;
+            const ux = dx / r_m;  // Unit vector toward Earth
+            const uy = dy / r_m;
             
             testMassVelocity += g * 0.01; // timestep
             testMass.x += ux * testMassVelocity * 0.0001;
@@ -967,38 +1013,67 @@
             
             diffractionCtx.clearRect(0, 0, width, height);
             
-            // Draw target
-            diffractionCtx.strokeStyle = '#95a5a6';
-            diffractionCtx.lineWidth = 2;
-            for (let r = 0; r < width / 2; r += 20) {
-                diffractionCtx.beginPath();
-                diffractionCtx.arc(width / 2, height / 2, r, 0, Math.PI * 2);
-                diffractionCtx.stroke();
-            }
+            // Draw target background
+            diffractionCtx.fillStyle = '#2c3e50';
+            diffractionCtx.fillRect(0, 0, width, height);
             
-            // Draw diffraction rings (simplified)
-            const scale = 1e11 / lambda; // inverse wavelength scale
-            const numRings = 5;
+            // Scale factor: smaller wavelength → smaller rings
+            const baseScale = 3e-11; // base wavelength scale
+            const ringScale = lambda / baseScale;
+            
+            // Draw concentric diffraction rings (Airy pattern)
+            const numRings = 8;
+            const baseRadius = 40;
             
             for (let i = 1; i <= numRings; i++) {
-                const r = i * 50 / scale;
-                const intensity = Math.exp(-i * 0.5);
+                // Airy disk: radius ∝ √(i) × λ
+                const r = baseRadius * Math.sqrt(i) * ringScale;
                 
-                diffractionCtx.strokeStyle = `rgba(255, 100, 100, ${intensity})`;
-                diffractionCtx.lineWidth = 3 + intensity * 2;
-                diffractionCtx.beginPath();
-                diffractionCtx.arc(width / 2, height / 2, r, 0, Math.PI * 2);
-                diffractionCtx.stroke();
+                // Intensity falls off with ring number
+                const intensity = Math.exp(-i * 0.4) * 0.9;
+                
+                // Draw bright ring (dusty appearance with many dots)
+                const numDots = 200 + i * 50;
+                for (let j = 0; j < numDots; j++) {
+                    const angle = (j / numDots) * 2 * Math.PI;
+                    // Add some randomness for dusty look
+                    const rVariation = r + (Math.random() - 0.5) * 8;
+                    const x = width / 2 + rVariation * Math.cos(angle);
+                    const y = height / 2 + rVariation * Math.sin(angle);
+                    
+                    diffractionCtx.fillStyle = `rgba(255, ${100 + intensity * 155}, ${100 + intensity * 155}, ${intensity * 0.8})`;
+                    diffractionCtx.beginPath();
+                    diffractionCtx.arc(x, y, 1.5, 0, Math.PI * 2);
+                    diffractionCtx.fill();
+                }
             }
             
-            // Central spot
-            diffractionCtx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            diffractionCtx.beginPath();
-            diffractionCtx.arc(width / 2, height / 2, 15, 0, Math.PI * 2);
-            diffractionCtx.fill();
+            // Central bright spot (very intense)
+            const centralRadius = baseRadius * 0.5 * ringScale;
+            const numCentralDots = 300;
+            for (let i = 0; i < numCentralDots; i++) {
+                const r = Math.random() * centralRadius;
+                const angle = Math.random() * 2 * Math.PI;
+                const x = width / 2 + r * Math.cos(angle);
+                const y = height / 2 + r * Math.sin(angle);
+                
+                diffractionCtx.fillStyle = `rgba(255, 255, 255, ${0.8 - r / centralRadius * 0.5})`;
+                diffractionCtx.beginPath();
+                diffractionCtx.arc(x, y, 2, 0, Math.PI * 2);
+                diffractionCtx.fill();
+            }
             
-            const avgRingR = 50 / scale * 2.5;
-            document.getElementById('ringRadius').textContent = avgRingR.toFixed(1) + ' px';
+            // Add labels
+            diffractionCtx.fillStyle = 'white';
+            diffractionCtx.font = 'bold 14px Arial';
+            diffractionCtx.textAlign = 'left';
+            diffractionCtx.fillText('Electron Diffraction Pattern', 20, 30);
+            diffractionCtx.font = '12px Arial';
+            diffractionCtx.fillText('(Target-like concentric rings)', 20, 50);
+            
+            // Update ring radius KPI
+            const avgRingR = baseRadius * Math.sqrt(2.5) * ringScale;
+            document.getElementById('ringRadius').textContent = avgRingR.toFixed(1) + ' px (avg)';
         }
         
         // Compton scattering
